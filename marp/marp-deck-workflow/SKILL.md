@@ -53,92 +53,49 @@ Style preferences (required for consistent output):
 
 ---
 
-### Phase 1 — Deck planning (planner behavior)
+### Phase 1 — Deck planning
 
-Goal: produce `planning/deck-plan.md` as a planning artifact only.
+Goal: produce `planning/deck-plan.md`.
 
-Rules:
-- Extract deck title, sections, key messages, constraints
-- Create 1–3 intro slides if needed
-- For each section: section divider + 2–5 slides
-- Ensure every key message appears at least once
-- Do not generate diagrams or Mermaid
-- `## Image` (if present) must be descriptive only
-
-Output:
-- Write `planning/deck-plan.md`
-
-Hard gate:
-- If any section has no slides planned: stop
+1. Invoke `marp-deck-planner` via Skill tool.
+2. Gate: verify `planning/deck-plan.md` exists and contains at least one section divider.
+3. If gate fails: stop and report.
 
 ---
 
-### Phase 2 — Visual design + Mermaid generation (designer behavior)
+### Phase 2 — Visual design + Mermaid/Excalidraw generation
 
-Goal: produce `planning/deck-visual-design.md` and diagram assets.
+Goal: produce `planning/deck-visual-design.md` and all diagram assets.
 
-Rules:
-- Slide order must match `planning/deck-plan.md` exactly
-- For each slide: Layout + Content placement (+ Visual design if planned)
-- When Visual design is diagrammatic:
-  - Create `diagrams/<diagramname>.mmd` (minimal and readable)
-  - Render with `task mermaid-file FILE=diagrams/<diagramname>.mmd` (or `task mermaid` to rebuild all)
-  - Run `task mermaid-check-file FILE=diagrams/<diagramname>.mmd` and adjust the `.mmd` if the output is too flat/tall
-  - Reference as `assets/<diagramname>.png` inside `planning/deck-visual-design.md`
-  - Choose slide class first, then design the diagram to fit (`visual-split` by default; add `image-wide` / `image-tall` based on validated aspect ratio)
-
-Hard gates:
-- If slide count/order mismatches plan: stop
-- If a planned diagram cannot be expressed minimally: stop and report
-
-Outputs:
-- `planning/deck-visual-design.md`
-- `diagrams/*.mmd`
-- `assets/*.png` (from Mermaid)
+1. Invoke `marp-deck-visual-designer` via Skill tool.
+2. Gate:
+   - `planning/deck-visual-design.md` exists
+   - Slide count and order match `planning/deck-plan.md`
+   - Every `## Image` reference in the visual design points to an existing file in `assets/`
+3. If any gate fails: stop and report exact mismatch.
 
 ---
 
-### Phase 3 — Deck generation (generator behavior)
+### Phase 3 — Deck generation
 
-Goal: generate `slides/deck.md` and `slides/deck-notes.md` deterministically.
+Goal: produce `slides/deck.md` and `slides/deck-notes.md`.
 
-Rules:
-- Authority order:
-  1) `references/deck-template.md`
-  2) `planning/deck-visual-design.md`
-  3) `planning/deck-plan.md`
-  4) `definition/deck-definition.md`
-- Keep frontpage and closing structure unchanged (frontpage cover variant may be applied)
-- Insert user slides between them
-- Layout mapping must comply with template
-- Visual placement rules:
-  - If image is inside HTML layout containers: use `<img src="../assets/...">`
-  - If image is standalone (no HTML wrapper): Markdown `![](../assets/...)` allowed
-- Do not invent new slides or content
-
-Outputs:
-- `slides/deck.md`
-- `slides/deck-notes.md`
-- `themes/deck-theme.css` only if strictly required and justified
-
-Hard gates:
-- If any referenced asset is missing: stop
-- If no template mapping exists for a layout: stop
+1. Invoke `marp-deck-gen` via Skill tool.
+2. Gate:
+   - `slides/deck.md` exists
+   - `slides/deck-notes.md` exists
+3. If gate fails: stop and report.
 
 ---
 
-### Phase 4 — Visual QA (checker behavior)
+### Phase 4 — Visual QA
 
 Goal: detect rendering and layout flaws in the rendered PDF and fix them.
 
-Steps:
-1. Run `task pdf` to produce the PDF.
-2. Invoke `marp-deck-checker` via Skill tool.
-3. The checker reads the PDF page-by-page and evaluates each slide against 12 flaw categories.
-
-Output:
-- **PASS**: inline message only, no file written — pipeline complete.
-- **FLAWS FOUND**: checker invokes `marp-deck-gen` with a targeted fix prompt (layout/structure fixes only; content shortened only as a last resort for unresolvable overflow).
+1. Run `task pdf`, then invoke `marp-deck-checker` via Skill tool.
+2. Output:
+   - **PASS**: pipeline complete.
+   - **FLAWS FOUND**: checker invokes `marp-deck-gen` with a targeted fix prompt (layout/structure fixes only; content shortened only as a last resort for unresolvable overflow).
 
 Feedback loop:
 - If `marp-deck-gen` was invoked: re-run `task pdf`, then re-invoke `marp-deck-checker` to confirm fixes.
