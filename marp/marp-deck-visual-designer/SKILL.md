@@ -214,8 +214,33 @@ If the decision rubric in 4.1 selects Excalidraw:
 
 ##### Export tool
 `task excalidraw-file` renders with `node scripts/render-excalidraw.js` using
-`@napi-rs/canvas` (Node 18+). The first run executes `npm install` automatically
-to fetch the prebuilt binary. No Docker dependency.
+`@napi-rs/canvas` (Node 18+). No Docker dependency.
+
+> **Prerequisite — `package.json` must exist in the project root.**
+> `task excalidraw-file` runs `npm install` before every render. If the project has
+> no `package.json`, the install silently fails (exit 254) and no PNG is produced.
+>
+> Before running `task excalidraw-file` for the first time, check for the file:
+>
+> ```bash
+> ls package.json 2>/dev/null || echo "missing"
+> ```
+>
+> If missing, create it:
+>
+> ```json
+> {
+>   "name": "deck-builder",
+>   "version": "1.0.0",
+>   "private": true,
+>   "dependencies": {
+>     "@napi-rs/canvas": "^0.1.65"
+>   }
+> }
+> ```
+>
+> Then run `npm install` once manually before invoking the task.
+> Subsequent `task excalidraw-file` calls will reuse the installed module.
 
 ##### Valid JSON structure
 The `.excalidraw` file must be valid JSON matching schema version 2:
