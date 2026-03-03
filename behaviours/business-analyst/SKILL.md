@@ -7,7 +7,7 @@ description: Analyze a user request document and produce a Functional Requiremen
 
 ## Purpose
 
-Analyze a request document from `docs/specs/requests/` and produce two deliverables:
+Analyze a request document from `docs/requests/` and produce two deliverables:
 1. **`docs/specs/analyst-frs.md`** — Functional Requirements Specification
 2. **`docs/specs/analyst-UAT.md`** — User Acceptance Test Cases
 
@@ -31,7 +31,7 @@ Embody these qualities throughout the process:
 
 1. **If invoked with a file argument** (e.g., by the product-owner skill), use that file directly.
 2. If the user specifies a file in conversation, use that.
-3. Otherwise, scan `docs/specs/requests/` for request documents.
+3. Otherwise, scan `docs/requests/` for request documents.
 4. If multiple files exist, ask the user which to analyze.
 5. If no files exist, ask the user to provide or describe the request.
 
@@ -52,7 +52,7 @@ Before asking any questions, silently analyze the request using the framework in
 
 ---
 
-### Phase 2: Challenge Rounds (3-5 rounds)
+### Phase 2: Challenge Rounds (3-7 rounds)
 
 Present questions to the user in focused rounds. Each round should:
 

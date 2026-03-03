@@ -51,7 +51,7 @@ Before asking any questions, silently analyze the SRS using the taxonomy in [ref
 
 ---
 
-### Phase 2: Challenge Rounds (3-5 rounds)
+### Phase 2: Challenge Rounds (3-7 rounds)
 
 Present questions to the user in focused rounds. Each round should:
 
