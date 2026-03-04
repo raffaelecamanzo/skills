@@ -73,7 +73,7 @@ Examples:
 Render each `.mmd` file immediately after writing it:
 
 ```bash
-npx -y @mermaid-js/mermaid-cli mmdc -i <input>.mmd -o <output>.png -b white
+npx -y -p @mermaid-js/mermaid-cli mmdc -i <input>.mmd -o <output>.png -b white
 ```
 
 Verify the PNG exists before inserting the image reference in `architecture.md`.
