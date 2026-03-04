@@ -106,6 +106,34 @@ Produce `docs/specs/architecture.md` following the template in [references/archi
 - **Distinguish reversibility.** Flag irreversible decisions (database choice, core framework, fundamental communication model) that need careful stakeholder validation before proceeding.
 - **Address every NFR.** Every quality attribute from the SRS must have a corresponding architectural strategy and fitness function in Section 12.
 
+#### Diagram generation
+
+Generate Mermaid diagrams following [references/diagram-conventions.md](references/diagram-conventions.md).
+
+**Setup:**
+```bash
+mkdir -p docs/specs/architecture/diagrams docs/specs/architecture/images
+```
+
+**Mandatory diagrams (always generate):**
+- `3-system-context.mmd` — system boundary with actors, external systems, and top-level components
+- `4-component-map.mmd` — internal component decomposition with dependencies and interfaces
+
+**Conditional diagrams (generate when criteria met):**
+- `4-communication-patterns.mmd` — when async or multi-hop flows exist
+- `6-data-flow.mmd` — when a data transformation pipeline exists
+- `7-integrations.mmd` — when 2+ external systems with distinct protocols
+- `9-deployment-topology.mmd` — when 3+ infrastructure tiers
+
+**Rendering workflow:**
+1. Write each `.mmd` file to `docs/specs/architecture/diagrams/`
+2. Render immediately after writing:
+   ```bash
+   npx -y @mermaid-js/mermaid-cli mmdc -i docs/specs/architecture/diagrams/<name>.mmd -o docs/specs/architecture/images/<name>.png -b white
+   ```
+3. Verify the PNG exists before inserting the image reference in `architecture.md`
+4. Use relative paths: `![Title](architecture/images/<name>.png)`
+
 ---
 
 ### Phase 4: Present and highlight
@@ -133,3 +161,7 @@ Before presenting the document, verify:
 - [ ] The Traceability Matrix maps SRS requirements to architectural decisions to components
 - [ ] Open Questions capture unresolved items with impact scope and ownership
 - [ ] The document is self-contained — readable without the SRS (but references it)
+- [ ] Both mandatory diagrams (system context + component map) present as `.mmd` files
+- [ ] All `.mmd` files have corresponding `.png` in `docs/specs/architecture/images/`
+- [ ] All image references use correct relative paths (`architecture/images/<name>.png`)
+- [ ] Tables preserved alongside diagrams — diagrams augment, not replace

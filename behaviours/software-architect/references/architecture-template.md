@@ -53,6 +53,8 @@ Use this template for the output file `docs/specs/architecture.md`. Adapt sectio
 - [Positive trade-off: what we gain]
 - [Negative trade-off: what we give up and why it's acceptable]
 
+![System Context Diagram](architecture/images/3-system-context.png)
+
 ### 3.2 Key Patterns Applied
 
 | Pattern | Where Applied | Problem It Solves | Reference |
@@ -65,11 +67,16 @@ Use this template for the output file `docs/specs/architecture.md`. Adapt sectio
 
 ### 4.1 High-Level Component Map
 
+![Component Map](architecture/images/4-component-map.png)
+
 | Component | Responsibility | Interfaces | Dependencies |
 |-----------|---------------|------------|--------------|
 | [Component name] | [Single-responsibility statement] | [APIs exposed] | [Other components it depends on] |
 
 ### 4.2 Communication Patterns
+
+<!-- Generate when async or multi-hop flows exist -->
+![Communication Patterns](architecture/images/4-communication-patterns.png)
 
 | From | To | Pattern | Protocol | Failure Handling |
 |------|----|---------|----------|-----------------|
@@ -117,6 +124,9 @@ Use this template for the output file `docs/specs/architecture.md`. Adapt sectio
 
 ### 6.2 Data Flow Overview
 
+<!-- Generate when data transformation pipeline exists -->
+![Data Flow](architecture/images/6-data-flow.png)
+
 [How data moves through the system — ingestion, processing, storage, retrieval, archival.]
 
 ### 6.3 Consistency & Replication
@@ -146,6 +156,9 @@ Use this template for the output file `docs/specs/architecture.md`. Adapt sectio
 | [Pub/Sub] | [e.g., Kafka] | [Domain event propagation] | [At-least-once, ordered within partition] |
 
 ### 7.3 External System Integrations
+
+<!-- Generate when 2+ external systems with distinct protocols -->
+![Integration Flows](architecture/images/7-integrations.png)
 
 | System | Protocol | Data Exchanged | Frequency | Owner | Contract Stability |
 |--------|----------|----------------|-----------|-------|--------------------|
@@ -186,6 +199,9 @@ Use this template for the output file `docs/specs/architecture.md`. Adapt sectio
 | [dev] | Development & experimentation | Minimal | Engineering |
 | [staging] | Pre-production validation | Production-like | Engineering + QA |
 | [prod] | Live traffic | Full | Restricted |
+
+<!-- Generate when 3+ infrastructure tiers -->
+![Deployment Topology](architecture/images/9-deployment-topology.png)
 
 ### 9.2 CI/CD Pipeline
 
