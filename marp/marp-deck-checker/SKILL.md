@@ -17,7 +17,7 @@ Perform visual QA on the rendered PDF of the deck. Detect layout and rendering f
 |-------|--------|
 | `output/<slugified-title>_<date>.pdf` | Most recently modified PDF in `output/` (auto-located) |
 | `slides/deck.md` | Read to map page numbers to slide titles |
-| `references/deck-template.md` | Used to judge what constitutes a flaw |
+| `.marp/references/deck-template.md` | Used to judge what constitutes a flaw |
 
 ---
 
@@ -115,7 +115,7 @@ Slide <N> — "<title>"
 | F4 — vertical imbalance | Remove empty `<p>`, `<br>`, or spacer elements between title and body |
 | F5 — image too small | Switch slide class to `image-wide` or `image-tall` based on the diagram's aspect ratio; increase diagram size if feasible |
 | F6 — text overlapping image | Separate image and text into distinct layout columns; use `visual-split` or two-column class |
-| F7 — blank slide | Verify asset paths (`../assets/<name>.png`) and that content is not hidden inside a broken HTML block |
+| F7 — blank slide | Verify asset paths (`../.marp/assets/<name>.png`) and that content is not hidden inside a broken HTML block |
 | F8 — missing title | Add a `###` heading as the slide title; verify it appears before content blocks |
 | F9 — two-column imbalance | Redistribute bullets evenly between columns, or collapse to single-column if one side is nearly empty |
 | F10 — title clipped | Reduce title font size via inline style, or shorten the title text |
@@ -129,7 +129,7 @@ Slide <N> — "<title>"
 - Do **not** change slides not listed in the fix prompt.
 - Fix layout and structure first (class tokens, HTML containers, modifiers).
 - **Exception — overflow that cannot be resolved structurally:** if a slide already has `compact` and content still overflows (F1/F12), rephrase and shorten body text to reduce volume while preserving meaning. Remove the least important bullet(s) as a last resort. This is the only case where content may be changed.
-- Re-read `references/deck-template.md` before applying fixes.
+- Re-read `.marp/references/deck-template.md` before applying fixes.
 
 ---
 

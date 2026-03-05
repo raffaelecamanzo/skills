@@ -27,7 +27,7 @@ The presentation plan is authoritative.
 ## Inputs
 
 - `planning/deck-plan.md` — produced by `marp-deck-planner`
-- `references/deck-template.md` — **mandatory reference**: defines every available layout pattern, class name, HTML structure, and content budget. Read this in full before assigning any layout.
+- `.marp/references/deck-template.md` — **mandatory reference**: defines every available layout pattern, class name, HTML structure, and content budget. Read this in full before assigning any layout.
 
 ---
 
@@ -58,7 +58,7 @@ Section divider slides must contain only:
 
 ### 0. Read the deck template (mandatory first step)
 
-Before making any layout decisions, read `references/deck-template.md` in full.
+Before making any layout decisions, read `.marp/references/deck-template.md` in full.
 
 This document is the authoritative source for:
 - Every available CSS class and layout pattern
@@ -105,7 +105,7 @@ In `## Layout`, specify:
 - Relative proportions where applicable (e.g. 60/40 split)
 - Visual hierarchy (primary vs secondary areas)
 
-Use concrete, MARP-compatible class names from `references/deck-template.md`.
+Use concrete, MARP-compatible class names from `.marp/references/deck-template.md`.
 
 Avoid abstract or aesthetic-only language.
 
@@ -158,7 +158,7 @@ If the planned visual is best represented as a diagram:
 ##### Mermaid styling (mandatory)
 
 All Mermaid renders use the shared deck config:
-- `references/mermaid-config.json`
+- `.marp/references/mermaid-config.json`
 
 Rules:
 - Do not rely on Mermaid default colors.
@@ -213,7 +213,7 @@ If the decision rubric in 4.1 selects Excalidraw:
 - Name must be deterministic and descriptive (lowercase, hyphens)
 
 ##### Export tool
-`task excalidraw-file` renders with `node scripts/render-excalidraw.js` using
+`task excalidraw-file` renders with `node .marp/scripts/render-excalidraw.js` using
 `@napi-rs/canvas` (Node 18+). No Docker dependency.
 
 > **Prerequisite — `package.json` must exist in the project root.**
@@ -300,7 +300,7 @@ Required properties: `id`, `type`, `x`, `y`, `width`, `height`, `angle: 0`, `str
 
 ##### Aspect-ratio prediction (use before exporting)
 
-`scripts/render-excalidraw.js` uses fixed `PADDING = 24px` each side and `scale = 2×`. Use these exact formulas to predict the exported PNG size before you export:
+`.marp/scripts/render-excalidraw.js` uses fixed `PADDING = 24px` each side and `scale = 2×`. Use these exact formulas to predict the exported PNG size before you export:
 
 ```
 content_width  = max(element.x + element.width)  − min(element.x)   [all non-arrow elements]
@@ -381,7 +381,7 @@ No visuals or diagrams for section slides.
 
 Before finalizing:
 
-- `references/deck-template.md` was read before any layout was assigned
+- `.marp/references/deck-template.md` was read before any layout was assigned
 - No slide uses a bullet list where a deck-template pattern would fit better
 - Mermaid vs Excalidraw decision is justified by content structure, not preference
 - Slide order exactly matches the plan
