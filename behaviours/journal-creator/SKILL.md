@@ -101,7 +101,7 @@ Map extracted data to stories following these rules:
 - `**Architecture:** [Brief architecture reference when applicable]`
 - 2-3 sentence description
 - **Acceptance criteria:** 3-5 bullets extracted from requirements
-- `- [ ] Not started` (checklist mark)
+- `**Status:** Not started`
 
 ---
 

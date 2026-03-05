@@ -56,7 +56,7 @@ Stories are ordered by dependency: no story appears before its dependencies.]
 - [Criterion]
 - [Criterion]
 
-- [ ] Not started
+**Status:** Not started
 
 ---
 
