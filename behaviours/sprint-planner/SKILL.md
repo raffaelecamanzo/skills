@@ -51,7 +51,7 @@ Build the sprint planning context:
 
 2. **Compute eligible stories** — a story is eligible when:
    - Status is `**Status:** Not started`
-   - ALL dependencies are either `**Status:** Done` or eligible and co-selectable
+   - ALL dependencies are either `**Status:** DONE` or eligible and co-selectable
 
 3. **Build dependency graph** of eligible stories — identify:
    - Foundation stories (no deps among eligible set)
@@ -123,7 +123,7 @@ After user approval, generate all outputs:
 
 3. **Create or update `docs/planning/sprint-log.md`** following [references/sprint-log-template.md](references/sprint-log-template.md)
 
-4. **Update `docs/planning/journal.md`** — for each selected story, change `**Status:** Not started` to `**Status:** Planned`
+4. **Update `docs/planning/journal.md`** — for each selected story, change `**Status:** Not started` to `**Status:** PLANNED`
 
 Present a summary of what was created/updated.
 
@@ -140,7 +140,7 @@ Before presenting the final documents, verify:
 - [ ] Task breakdowns reference architecture.md and/or SRS sections where applicable
 - [ ] Execution order respects all intra-sprint dependencies
 - [ ] Sprint-log entry is consistent with sprint document
-- [ ] Journal statuses updated correctly (only selected stories changed to Planned)
+- [ ] Journal statuses updated correctly (only selected stories changed to PLANNED)
 - [ ] Sprint number is sequential with no gaps
 - [ ] Sprint document is self-contained — readable without re-consulting all spec documents
 - [ ] Story and task statuses are all set to PLANNED initially

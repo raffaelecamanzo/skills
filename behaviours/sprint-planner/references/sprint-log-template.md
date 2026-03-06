@@ -22,7 +22,7 @@ Use this template for the output file `docs/planning/sprint-log.md`. This docume
 
 ### Sprint 1: [Title]
 - **Date:** [YYYY-MM-DD]
-- **Status:** PLANNED | BUILDING | REVIEWING | DONE
+- **Status:** PLANNED | SELECTED | READY-FOR-REVIEW | DONE
 - **Objective:** [1-sentence objective]
 - **Stories:** S-NNN, S-NNN, S-NNN
 - **References:**

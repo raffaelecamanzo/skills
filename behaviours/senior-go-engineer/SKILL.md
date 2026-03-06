@@ -41,6 +41,8 @@ Read the sprint document and trace back to supporting specs:
 - `docs/specs/software-spec.md` (requirements context)
 - `docs/planning/journal.md` (story context, dependencies)
 
+Update the task status from `PLANNED` to `SELECTED` in `docs/planning/sprints/sprint-N.md`.
+
 Announce: "Implementing [story ID] / [task title]..."
 
 ---
@@ -127,7 +129,7 @@ If any verification step fails, fix the issue and re-run. Do not deliver code wi
 
 ### Phase 5: Delivery and Status Update
 
-1. **Update the sprint document** — change the implemented task's status from `PLANNED` to `DONE` in `docs/planning/sprints/sprint-N.md`
+1. **Update the sprint document** — change the implemented task's status from `SELECTED` to `READY-FOR-REVIEW` in `docs/planning/sprints/sprint-N.md`
 
 2. **Write implementation notes** — append a task section to `docs/planning/sprints/sprint-impl-N.md` (create the file from [references/impl-notes-template.md](references/impl-notes-template.md) if it does not exist):
    - Task/story ID and summary
@@ -161,6 +163,6 @@ Before presenting the final delivery, verify:
 - [ ] No hardcoded secrets, credentials, or sensitive data in code or error messages
 - [ ] Project conventions are followed (naming, structure, logging, error style)
 - [ ] Self-review checklist walked completely — all sections addressed
-- [ ] Sprint task status updated to DONE in sprint document
+- [ ] Sprint task status updated to READY-FOR-REVIEW in sprint document
 - [ ] Implementation notes appended to `docs/planning/sprints/sprint-impl-N.md`
 - [ ] Summary highlights key decisions, verification results, and follow-up items
