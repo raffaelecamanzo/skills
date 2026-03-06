@@ -75,7 +75,23 @@ If the user adjusts, revise the approach and re-present once.
 
 ---
 
-### Phase 3: Implementation
+### Phase 3: Test-Driven Implementation
+
+Follow the TDD cycle for each unit of work (function, method, interface implementation). This is prescriptive — not optional.
+
+**Red-Green-Refactor cycle:**
+
+1. **RED** — Write a failing test that defines the expected behavior. The test must:
+   - Target one specific behavior or requirement from the acceptance criteria
+   - Use table-driven format with `t.Run` for named sub-cases
+   - Include error path and edge case sub-cases from the start
+   - Compile but fail (test the right thing, not a typo)
+
+2. **GREEN** — Write the minimal implementation to make the test pass. No more, no less.
+
+3. **REFACTOR** — Improve the implementation while keeping all tests green. Apply the mandates below during this step.
+
+Repeat for each behavior. Build up coverage incrementally — do not write all tests upfront or all implementation upfront.
 
 Write code following discovered project patterns. Apply these mandates:
 
@@ -97,18 +113,15 @@ Write code following discovered project patterns. Apply these mandates:
 - First parameter, never in structs
 - `context.Background()` only at entry points
 
-**Testing:**
-- Table-driven with `t.Run` for named sub-cases
-- Test error paths and edge cases, not just happy paths
-- Fuzz tests for functions processing untrusted input
-- Benchmark tests for performance-sensitive hot paths
-- `t.Parallel()` for independent tests; `t.Helper()` in test utilities
-
 **Security:**
 - Consult [references/security-patterns.md](references/security-patterns.md) for the specific patterns relevant to the task
 - Validate all external input at the boundary
 - Parameterised queries, no string interpolation into SQL
 - `crypto/rand` for security-sensitive randomness
+
+**Additional test types (after the TDD cycle completes):**
+- Fuzz tests for functions processing untrusted input
+- Benchmark tests for performance-sensitive hot paths
 
 ---
 
@@ -146,6 +159,16 @@ If any verification step fails, fix the issue and re-run. Do not deliver code wi
 
 ---
 
+### Phase 6: Code Review
+
+Invoke the `code-reviewer` skill with the task reference:
+
+> Review [story ID] [task title] from sprint-N (task-level review).
+
+Do not interrupt or shortcut the code-reviewer's process. Let it run its full workflow.
+
+---
+
 ## Quality Checks (mandatory)
 
 Before presenting the final delivery, verify:
@@ -166,3 +189,4 @@ Before presenting the final delivery, verify:
 - [ ] Sprint task status updated to READY-FOR-REVIEW in sprint document
 - [ ] Implementation notes appended to `docs/planning/sprints/sprint-impl-N.md`
 - [ ] Summary highlights key decisions, verification results, and follow-up items
+- [ ] Code-reviewer skill invoked with the correct task reference
