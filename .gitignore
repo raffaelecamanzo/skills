@@ -1,6 +1,3 @@
 # Ignore compiled skill files
 *.skill
 
-# Worktree isolation (sprint-coordinator parallel execution)
-.worktrees/
-docs/planning/sprints/.pending/
