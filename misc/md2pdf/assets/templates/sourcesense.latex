@@ -1,0 +1,121 @@
+% Sourcesense Pandoc LaTeX Template
+% Usage: pandoc --template=sourcesense.latex --pdf-engine=xelatex input.md -o output.pdf
+\documentclass[$if(fontsize)$$fontsize$$else$11pt$endif$,$if(papersize)$$papersize$$else$a4paper$endif$]{article}
+
+% ── Geometry ──────────────────────────────────────────────────────
+\usepackage[margin=2.5cm,headheight=1.5cm,headsep=0.8cm$if(landscape)$,landscape$endif$]{geometry}
+
+% ── Fonts (XeLaTeX) ──────────────────────────────────────────────
+\usepackage{fontspec}
+\setmainfont{$if(mainfont)$$mainfont$$else$Helvetica Neue$endif$}
+\setmonofont[Scale=0.85]{$if(monofont)$$monofont$$else$Menlo$endif$}
+% Fallback for Unicode arrows/symbols missing from Helvetica Neue
+\usepackage{newunicodechar}
+\newfontfamily\symbolfont{Apple Symbols}
+\newunicodechar{→}{{\symbolfont →}}
+\newunicodechar{↔}{{\symbolfont ↔}}
+\newunicodechar{←}{{\symbolfont ←}}
+\newunicodechar{∈}{{\symbolfont ∈}}
+\newunicodechar{▢}{{\symbolfont ▢}}
+\newunicodechar{⚠}{{\symbolfont ⚠}}
+% Support for markdown checkboxes (- [ ] rendered as \square by pandoc)
+\usepackage{amssymb}
+
+% ── Colors ───────────────────────────────────────────────────────
+\usepackage{xcolor}
+\definecolor{sored}{HTML}{DA291C}
+\definecolor{soorange}{HTML}{E35205}
+\definecolor{somerlin}{HTML}{3D3935}
+\definecolor{somuted}{HTML}{716B5D}
+
+% ── Typography ───────────────────────────────────────────────────
+\usepackage{microtype}
+
+% ── Pandoc common partial (tables, graphics, lists, highlighting) ─
+$common.latex()$
+
+% ── Header / Footer ─────────────────────────────────────────────
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% Header: logo top-right
+\fancyhead[R]{\includegraphics[height=0.5cm]{$if(logo)$$logo$$else$logo-dark-col.png$endif$}}
+
+% Footer: copyright center, page number right
+\fancyfoot[C]{\small\color{somuted}\textcopyright\ Sourcesense 2026}
+\fancyfoot[R]{\small\color{somuted}\thepage}
+
+% Apply same style to plain pages (first page, chapter openers)
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{0.4pt}%
+  \fancyhead[R]{\includegraphics[height=0.5cm]{$if(logo)$$logo$$else$logo-dark-col.png$endif$}}%
+  \fancyfoot[C]{\small\color{somuted}\textcopyright\ Sourcesense 2026}%
+  \fancyfoot[R]{\small\color{somuted}\thepage}%
+}
+
+% ── Headings ─────────────────────────────────────────────────────
+\usepackage{titlesec}
+\titleformat{\section}
+  {\Large\bfseries\color{somerlin}}{\color{sored}\thesection}{1em}{}
+\titleformat{\subsection}
+  {\large\bfseries\color{somerlin}}{\color{sored}\thesubsection}{1em}{}
+\titleformat{\subsubsection}
+  {\normalsize\bfseries\color{somerlin}}{\color{sored}\thesubsubsection}{1em}{}
+
+% ── Links ────────────────────────────────────────────────────────
+\usepackage[unicode=true]{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=sored,
+  citecolor=soorange,
+  urlcolor=sored,
+  breaklinks=true
+}
+\urlstyle{same}
+
+% ── Header includes (user overrides) ────────────────────────────
+$for(header-includes)$
+$header-includes$
+$endfor$
+
+% ── Document ─────────────────────────────────────────────────────
+\begin{document}
+
+% ── Title Block (inline, no separate page) ───────────────────────
+$if(title)$
+{
+  \raggedright
+  {\huge\bfseries\color{somerlin}$title$\par}
+  \vspace{0.3em}
+  {\color{sored}\rule{\linewidth}{1.5pt}\par}
+  \vspace{0.4em}
+  $if(subtitle)${\large\color{somuted}$subtitle$\par}\vspace{0.3em}$endif$
+  $if(author)${\normalsize\color{somuted}$for(author)$$author$$sep$, $endfor$\par}$endif$
+  $if(date)${\normalsize\color{somuted}$date$\par}$endif$
+  \vspace{1.5em}
+}
+$endif$
+
+% ── Table of Contents ────────────────────────────────────────────
+$if(toc)$
+{
+  \hypersetup{linkcolor=somerlin}
+  \setcounter{tocdepth}{$if(toc-depth)$$toc-depth$$else$3$endif$}
+  \tableofcontents
+  \newpage
+}
+$endif$
+
+$body$
+
+$for(include-after)$
+$include-after$
+$endfor$
+
+\end{document}
