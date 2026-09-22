@@ -5,6 +5,7 @@
 #   ./md2pdf.sh --template standard <file.md> [output.pdf]   Single-file with template
 #   ./md2pdf.sh --landscape <file.md>                        Landscape orientation
 #   ./md2pdf.sh --all [--template standard] [--landscape]    Batch mode
+#   ./md2pdf.sh --no-sanitize <file.md>                     Feed pandoc the file verbatim
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -17,6 +18,11 @@ PDF_DIR="$PROJECT_ROOT/pdf/output"
 # Defaults
 TEMPLATE_NAME="sourcesense"
 LANDSCAPE=""
+SANITIZE="true"
+
+# Pandoc reader configuration (shared with test-md2pdf.sh)
+# shellcheck source=pandoc-reader.sh
+source "$SCRIPT_DIR/pandoc-reader.sh"
 
 # Add MacTeX to PATH if xelatex isn't found
 if ! command -v xelatex &>/dev/null; then
@@ -44,6 +50,10 @@ parse_flags() {
         LANDSCAPE="true"
         shift
         ;;
+      --no-sanitize)
+        SANITIZE=""
+        shift
+        ;;
       *)
         REMAINING_ARGS+=("$1")
         shift
@@ -67,6 +77,14 @@ if [ ! -f "$TEMPLATE" ]; then
   exit 1
 fi
 
+# Sanitised copies are written next to their source (so relative image paths keep
+# resolving) and removed on exit, including when pandoc aborts under `set -e`.
+TMP_FILES=()
+cleanup_tmp() {
+  if [ ${#TMP_FILES[@]} -gt 0 ]; then rm -f "${TMP_FILES[@]}"; fi
+}
+trap cleanup_tmp EXIT
+
 # Extract title from first '# ' line in a Markdown file
 extract_title() {
   grep -m1 '^# ' "$1" | sed 's/^# //' || basename "$1" .md
@@ -76,8 +94,18 @@ extract_title() {
 convert_one() {
   local input="$1"
   local output="$2"
+
+  # Obsidian-flavoured input needs two fixes the reader config cannot make:
+  # leading YAML front matter and callout markers. See scripts/sanitize-md.py.
+  local src="$input"
+  if [ -n "$SANITIZE" ]; then
+    src="${input%.md}.md2pdf-tmp.$$.md"
+    TMP_FILES+=("$src")
+    "$SCRIPT_DIR/sanitize-md.py" "$input" "$src"
+  fi
+
   local title
-  title="$(extract_title "$input")"
+  title="$(extract_title "$src")"
 
   local input_dir
   input_dir="$(cd "$(dirname "$input")" && pwd)"
@@ -118,7 +146,7 @@ convert_one() {
 
   echo "Converting: $input → $output  [template: $TEMPLATE_NAME, $orientation]"
   TEXINPUTS="$texinputs" \
-  pandoc "$input" \
+  pandoc "$src" \
     -o "$output" \
     --template="$TEMPLATE" \
     --pdf-engine=xelatex \
@@ -128,7 +156,7 @@ convert_one() {
     --syntax-highlighting=tango \
     --variable=graphics:true \
     "${pandoc_extra[@]+"${pandoc_extra[@]}"}" \
-    -f markdown+pipe_tables+fenced_code_blocks+backtick_code_blocks+auto_identifiers
+    -f "$PANDOC_READER"
 }
 
 # ── Batch mode ───────────────────────────────────────────────────
